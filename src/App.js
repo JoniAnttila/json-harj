@@ -1,23 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState, useEffect} from 'react'; 
+
+const URL = 'http://localhost/json_harj/index.php'
 
 function App() {
+  const [message,setMessage] = useState('');
+
+  useEffect(() => {
+    fetch(URL)
+    .then(res => res.json())
+    .then (
+      (res) => {
+        setMessage(res.message);
+      }, (error) =>{
+        alert(error);
+      }
+    )
+  },[])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h3>Retrieving JSON from PHP</h3>
+      <p>{message}</p>
     </div>
   );
 }
